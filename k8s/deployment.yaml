@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: minnuantony/frontend-new:35cbe55 # <-- change image name
+          image: minnuantony/frontend-new:sha-a5abca1bda12b6e10e610587c3c4f0f251ba5a23
           ports:
             - containerPort: 80
           resources:
@@ -54,4 +54,4 @@ spec:
   template:
     spec:
       containers:
-        - image: minnuantony/frontend-new:35cbe55
+        - image: minnuantony/frontend-new:sha-a5abca1bda12b6e10e610587c3c4f0f251ba5a23
