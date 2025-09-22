@@ -33,7 +33,8 @@ jobs:
 
       # ---------------- SAST ----------------
       - name: Run Security Linter
-        run: npx eslint ./src --rule "security/detect-object-injection: error"
+        run: npx eslint ./src --rule security/detect-object-injection:error
+
 
       # ---------------- SCA ----------------
       - name: Run npm audit
