@@ -12,16 +12,15 @@ const Dashboard = ({ userId }) => {
   // fallback to localStorage if userId is not passed down
   const effectiveUserId = userId || localStorage.getItem('userId');
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!effectiveUserId) {
       navigate('/login');
       return;
     }
     fetchSummary();
-  }, [effectiveUserId, navigate, fetchSummary]);
+  }, [effectiveUserId, navigate]);
 
-  const fetchSummary = async () => {
+ const fetchSummary = async () => {
     try {
       const response = await getAnalyticsSummary(effectiveUserId);
       setSummary(response.data);
@@ -83,3 +82,4 @@ const Dashboard = ({ userId }) => {
 };
 
 export default Dashboard;
+
