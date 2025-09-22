@@ -24,6 +24,7 @@ const Expenses = ({ userId }) => {
       const response = await axios.get(`${EXPENSES_URL}/${effectiveUserId}`);
       setExpenses(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
+      console.error(error);
       setExpenses([]);
       setMessage("Error fetching expenses.");
     }
@@ -47,11 +48,12 @@ const Expenses = ({ userId }) => {
       setNewExpense({ amount: '', category: '' });
       fetchExpenses(); // Refresh the list
       setMessage('Expense added successfully!');
-    } catch (error) {
+    } catch (error) { 
+      console.error(error); // use the variable
       setMessage('Error adding expense.');
     }
   };
-
+ 
   const totalAmount = expenses.reduce((sum, exp) => sum + exp.amount, 0);
 
   return (
