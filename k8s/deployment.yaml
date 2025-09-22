@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: minnuantony/frontend-new:sha-70af7963933732ccf2cfa95cd9a246116fb06649
+          image: minnuantony/frontend-new:sha-18592be511dbf01ed6d1e08a61faf4f2310f80a1
           ports:
             - containerPort: 80
           resources:
