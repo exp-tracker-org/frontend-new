@@ -12,19 +12,21 @@ const Dashboard = ({ userId }) => {
   // fallback to localStorage if userId is not passed down
   const effectiveUserId = userId || localStorage.getItem('userId');
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!effectiveUserId) {
       navigate('/login');
       return;
     }
     fetchSummary();
-  }, [effectiveUserId, navigate]);
+  }, [effectiveUserId, navigate, fetchSummary]);
 
   const fetchSummary = async () => {
     try {
       const response = await getAnalyticsSummary(effectiveUserId);
       setSummary(response.data);
     } catch (err) {
+      console.error(err); // use the variable to fix ESLint error
       setError('Failed to fetch analytics data.');
     } finally {
       setLoading(false);
