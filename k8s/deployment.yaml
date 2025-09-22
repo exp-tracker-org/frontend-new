@@ -51,7 +51,4 @@ spec:
       targetPort: 80
       nodePort: 30080 # <-- change if port conflict
   type: NodePort
-  template:
-    spec:
-      containers:
-        - image: minnuantony/frontend-new:sha-9c5de9ba40a02cc1f20913adedc133baacea1d5b
+ 
