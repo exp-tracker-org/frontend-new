@@ -35,7 +35,6 @@ jobs:
       - name: Run Security Linter
         run: npx eslint ./src --rule security/detect-object-injection:error || true
 
-
       # ---------------- SCA ----------------
       - name: Run npm audit
         run: npm audit --audit-level=high || true
@@ -51,15 +50,30 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # ---------------- Build & Push Docker Images ----------------
-      - name: Build & Push Docker Image
+      # ---------------- Build Docker Image ----------------
+      - name: Build Docker Image
         run: |
           IMAGE=minnuantony/frontend-new
           SHA_TAG=$IMAGE:sha-${GITHUB_SHA}
           LATEST_TAG=$IMAGE:latest
           docker build -t $SHA_TAG -t $LATEST_TAG .
-          docker push $SHA_TAG
-          docker push $LATEST_TAG
+          echo "SHA_TAG=$SHA_TAG" >> $GITHUB_ENV
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
+
+      # ---------------- Trivy Scan (before pushing) ----------------
+      - name: Scan Docker Image with Trivy
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          image-ref: ${{ env.SHA_TAG }}
+          format: 'table'
+          severity: 'HIGH,CRITICAL'
+          exit-code: '0'   # change to '1' if you want pipeline to fail on vulnerabilities
+
+      # ---------------- Push Docker Images ----------------
+      - name: Push Docker Images
+        run: |
+          docker push ${{ env.SHA_TAG }}
+          docker push ${{ env.LATEST_TAG }}
 
       # ---------------- Update Deployment Manifest ----------------
       - name: Update Deployment Image
